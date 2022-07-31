@@ -11,7 +11,7 @@ const data = (() => {
     PubSub.publish('GET CURRENT WEATHER', currentData);
   }
 
-  const processData = (msg, object) => {
+  const processCurrentData = (msg, object) => {
     const processedData = {
       name: object.name,
       country: object.sys.country,
@@ -22,6 +22,7 @@ const data = (() => {
       wind: { speed: object.wind.speed, direction: object.wind.deg },
       weather: object.weather,
     };
+
     if (object.rain) {
       processedData.rain = object.rain['1h'];
     }
@@ -32,7 +33,7 @@ const data = (() => {
     PubSub.publish('DATA PROCESSED', processedData);
   };
 
-  return { fetchCurrentData, processData };
+  return { fetchCurrentData, processCurrentData };
 })();
 
 export default data;
