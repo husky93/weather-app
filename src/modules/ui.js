@@ -14,19 +14,35 @@ const ui = (() => {
         const src = module.default;
         icon.src = src;
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
+        return new Error('Icon load error:');
       });
     return icon;
   };
 
-  const renderLoading = () => {};
+  const clearMain = () => {
+    const main = document.querySelector('.main');
+
+    while (main.lastElementChild) {
+      main.removeChild(main.lastElementChild);
+    }
+  };
+
+  const renderLoading = () => {
+    clearMain();
+    const main = document.querySelector('.main');
+    const loadingIcon = new Image();
+    loadingIcon.src = spinner;
+
+    main.appendChild(loadingIcon);
+  };
 
   const renderContent = (msg, data) => {
-    const body = document.querySelector('body');
+    clearMain();
+    const main = document.querySelector('.main');
     const icon = createIcon(data.weather[0].icon);
-
-    body.appendChild(icon);
+    console.log(icon);
+    main.appendChild(icon);
   };
 
   return { renderContent, renderLoading };
