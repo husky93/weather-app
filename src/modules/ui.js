@@ -45,6 +45,7 @@ const ui = (() => {
     input.type = 'text';
     input.name = 'search';
     input.id = 'searchbar';
+    input.placeholder = 'City name...';
     wrapper.append(input, btn);
 
     PubSub.publish('SEARCHBAR CREATED', { input, btn });
@@ -86,9 +87,12 @@ const ui = (() => {
   const renderLoading = () => {
     clearMain();
     const main = document.querySelector('.main');
+    const wrapper = createWrapper(['container', 'loading__wrapper'], 'div');
     const loadingIcon = new Image();
     loadingIcon.src = spinner;
-    main.appendChild(loadingIcon);
+    loadingIcon.classList.add('loading');
+    wrapper.appendChild(loadingIcon);
+    main.appendChild(wrapper);
   };
 
   const renderContent = (msg, data) => {
