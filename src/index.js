@@ -11,4 +11,4 @@ PubSub.subscribe('DATA PROCESSED', ui.renderContent);
 PubSub.subscribe('SEARCHBAR CREATED', controller.addSearchListeners);
 PubSub.subscribe('SEARCH TRIGGERED', data.fetchCurrentData);
 
-data.fetchCurrentData('Konin');
+data.fetchCurrentData();

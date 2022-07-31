@@ -2,7 +2,6 @@ import PubSub from 'pubsub-js';
 
 const controller = (() => {
   const addSearchbarEventListener = (input) => {
-    console.log(input);
     input.addEventListener('keypress', (e) => {
       if (e.key === 'Enter') {
         e.preventDefault();
@@ -18,7 +17,6 @@ const controller = (() => {
   };
 
   const addSearchListeners = (msg, object) => {
-    console.log(msg, object.input, object.btn);
     const { input } = object;
     const { btn } = object;
     addSearchbarEventListener(input);

@@ -4,7 +4,6 @@ const API_KEY = '044a0966b2f2703c494f92b31d159d15';
 
 const data = (() => {
   async function fetchCurrentData(msg, city = 'Kraków') {
-    let currentData;
     if (city.length >= 3) {
       try {
         const response = await fetch(
@@ -14,7 +13,7 @@ const data = (() => {
         if (!response.ok) {
           throw new Error('Network response was not OK');
         }
-        currentData = await response.json();
+        const currentData = await response.json();
         PubSub.publish('GET CURRENT WEATHER', currentData);
       } catch (error) {
         console.log(error);
@@ -24,12 +23,14 @@ const data = (() => {
 
   const processCurrentData = (msg, object) => {
     const processedData = {
-      name: object.name,
+      city: object.name,
       country: object.sys.country,
       clouds: object.clouds.all,
-      temp: object.main.temp,
+      temp: `${Math.round(object.main.temp)}ºC`,
+      feelslike: `${Math.round(object.main.feels_like)}ºC`,
       pressure: object.main.pressure,
       humidity: object.main.humidity,
+      dt: object.dt,
       wind: { speed: object.wind.speed, direction: object.wind.deg },
       weather: object.weather,
     };

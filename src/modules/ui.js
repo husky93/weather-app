@@ -1,5 +1,6 @@
 import spinner from '../assets/spinner.gif';
 import PubSub from 'pubsub-js';
+import { format } from 'date-fns';
 
 const ui = (() => {
   const loadIcon = (name) => {
@@ -18,6 +19,13 @@ const ui = (() => {
     classList.forEach((item) => para.classList.add(item));
     para.textContent = text;
     parent.appendChild(para);
+  };
+
+  const createSpan = ([...classList], text, parent) => {
+    const span = document.createElement('span');
+    classList.forEach((item) => span.classList.add(item));
+    span.textContent = text;
+    parent.appendChild(span);
   };
 
   const createButton = ([...classList], text, parent) => {
@@ -44,6 +52,7 @@ const ui = (() => {
 
   const createIcon = (name) => {
     const icon = new Image();
+    icon.classList.add('icon--weather');
     icon.src = spinner;
 
     loadIcon(name)
@@ -55,6 +64,15 @@ const ui = (() => {
         return new Error('Icon load error:');
       });
     return icon;
+  };
+
+  const createMainRows = () => {
+    const main = document.querySelector('.main');
+    const rowOne = createWrapper(['row', 'search__wrapper'], 'div');
+    const rowTwo = createWrapper(['row', 'top__wrapper'], 'div');
+    const rowThree = createWrapper(['row'], 'div');
+    main.append(rowOne, rowTwo, rowThree);
+    return [rowOne, rowTwo, rowThree];
   };
 
   const clearMain = () => {
@@ -75,10 +93,25 @@ const ui = (() => {
 
   const renderContent = (msg, data) => {
     clearMain();
-    const main = document.querySelector('.main');
+    console.log(data);
+    const rows = createMainRows();
     const icon = createIcon(data.weather[0].icon);
-    createSearchBar(['search__bar'], main);
-    main.appendChild(icon);
+    const formattedDate = format(new Date(), 'd MMMM, EEEE');
+    const info = createWrapper(['container', 'top__info'], 'div');
+    const temp = createWrapper(['container', 'top__temp'], 'div');
+    createSpan(['temp--main', 'text--bold'], data.temp, temp);
+    const feelsLike = createWrapper(
+      ['container', 'temp__feelslike'],
+      'div',
+      temp
+    );
+    createSpan(['date', 'text--regular'], formattedDate, info);
+    createSpan(['location', 'text--semibold'], data.city, info);
+    createSpan(['text', 'text--regular'], 'fells like', feelsLike);
+    createSpan(['temp--fl', 'text--semibold'], data.feelslike, feelsLike);
+    createSearchBar(['search__bar'], rows[0]);
+
+    rows[1].append(info, icon, temp);
   };
 
   return { renderContent, renderLoading };
