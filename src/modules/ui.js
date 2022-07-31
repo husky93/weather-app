@@ -180,9 +180,18 @@ const ui = (() => {
 
     createInfoTable(data);
     rows[1].append(info, icon, temp);
+
+    PubSub.publish('CURRENT WEATHER RENDERED', {
+      lon: data.lon,
+      lat: data.lat,
+    });
   };
 
-  return { renderContent, renderLoading };
+  const renderFiveDayWeather = (msg, data) => {
+    console.log(msg, data);
+  };
+
+  return { renderContent, renderLoading, renderFiveDayWeather };
 })();
 
 export default ui;

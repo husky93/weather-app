@@ -21,6 +21,25 @@ const data = (() => {
     }
   }
 
+  async function fetchFiveDayData(msg, object) {
+    try {
+      const { lat } = object;
+      const { lon } = object;
+      const response = await fetch(
+        `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&cnt=24&appid=${API_KEY}`,
+        { mode: 'cors' }
+      );
+      console.log(response);
+      if (!response.ok) {
+        throw new Error('Network response was not OK');
+      }
+      const currentData = await response.json();
+      PubSub.publish('GET FIVE DAY WEATHER', currentData);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   const processCurrentData = (msg, object) => {
     const processedData = {
       city: object.name,
@@ -30,7 +49,8 @@ const data = (() => {
       feelslike: `${Math.round(object.main.feels_like)}ºC`,
       pressure: `${object.main.pressure}hPa`,
       humidity: `${object.main.humidity}%`,
-      dt: object.dt,
+      lon: object.coord.lon,
+      lat: object.coord.lat,
       wind: { speed: `${object.wind.speed}m/s`, direction: object.wind.deg },
       weather: object.weather,
     };
@@ -46,7 +66,7 @@ const data = (() => {
     return processedData;
   };
 
-  return { fetchCurrentData, processCurrentData };
+  return { fetchCurrentData, fetchFiveDayData, processCurrentData };
 })();
 
 export default data;
