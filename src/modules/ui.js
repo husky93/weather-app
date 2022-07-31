@@ -3,6 +3,8 @@ import PubSub from 'pubsub-js';
 import { format } from 'date-fns';
 
 const ui = (() => {
+  const main = document.querySelector('.main');
+
   const loadIcon = (name) => {
     return import(/* webpackChunkName: "icon" */ `../assets/icons/${name}.png`);
   };
@@ -68,7 +70,6 @@ const ui = (() => {
   };
 
   const createMainRows = () => {
-    const main = document.querySelector('.main');
     const rowOne = createWrapper(['row', 'search__wrapper'], 'div');
     const rowTwo = createWrapper(['row', 'top__wrapper'], 'div');
     const rowThree = createWrapper(['row'], 'div');
@@ -77,8 +78,6 @@ const ui = (() => {
   };
 
   const clearMain = () => {
-    const main = document.querySelector('.main');
-
     while (main.lastElementChild) {
       main.removeChild(main.lastElementChild);
     }
@@ -86,7 +85,6 @@ const ui = (() => {
 
   const renderLoading = () => {
     clearMain();
-    const main = document.querySelector('.main');
     const wrapper = createWrapper(['container', 'loading__wrapper'], 'div');
     const loadingIcon = new Image();
     loadingIcon.src = spinner;
@@ -95,8 +93,35 @@ const ui = (() => {
     main.appendChild(wrapper);
   };
 
+  const removePrefixedClasses = (prefix, element) => {
+    const classes = element.className
+      .split(' ')
+      .filter((c) => !c.startsWith(prefix));
+    element.className = classes.join(' ').trim();
+  };
+
+  const changeMainBg = (id, icon) => {
+    const prefix = 'bg';
+    removePrefixedClasses(prefix, main);
+    if (id >= 200 && id <= 622) {
+      main.classList.add('bg--rain');
+    }
+    if (id >= 701 && id <= 781) {
+      main.classList.add('bg--cloudy');
+    }
+    if (id === 800 || id === 801) {
+      if (icon.includes('d')) main.classList.add('bg--sunny');
+      else main.classList.add('bg--night');
+    }
+    if (id === 802 || id === 803 || id === 804) {
+      if (icon.includes('d')) main.classList.add('bg--cloudy');
+      else main.classList.add('bg--night');
+    }
+  };
+
   const renderContent = (msg, data) => {
     clearMain();
+    changeMainBg(data.weather[0].id, data.weather[0].icon);
     console.log(data);
     const rows = createMainRows();
     const icon = createIcon(data.weather[0].icon);

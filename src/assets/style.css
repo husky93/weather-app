@@ -64,9 +64,14 @@ body {
   background: linear-gradient(45deg, rgba(43,42,210,0.65) 0%, rgba(186,128,218,0.65) 100%);
 }
 
-.bg--thunder {
+.bg--cloudy {
+  background: rgb(10,63,161);
+  background: linear-gradient(45deg, rgba(10,63,161,0.65) 0%, rgba(56,123,154,0.65) 100%);
+}
+
+.bg--rain {
   background: rgb(6,157,96);
-  background: linear-gradient(45deg, rgba(6,157,96,0.65) 0%, rgba(32,209,96,0.65) 100%);
+  background: linear-gradient(45deg, rgba(6,157,96,0.8) 0%, rgba(32,209,96,0.8) 100%);
 }
 
 .search__wrapper {

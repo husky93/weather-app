@@ -25,13 +25,13 @@ const data = (() => {
     const processedData = {
       city: object.name,
       country: object.sys.country,
-      clouds: object.clouds.all,
+      clouds: `${object.clouds.all}%`,
       temp: `${Math.round(object.main.temp)}ºC`,
       feelslike: `${Math.round(object.main.feels_like)}ºC`,
-      pressure: object.main.pressure,
-      humidity: object.main.humidity,
+      pressure: `${object.main.pressure}hPa`,
+      humidity: `${object.main.humidity}%`,
       dt: object.dt,
-      wind: { speed: object.wind.speed, direction: object.wind.deg },
+      wind: { speed: `${object.wind.speed}m/s`, direction: object.wind.deg },
       weather: object.weather,
     };
 
