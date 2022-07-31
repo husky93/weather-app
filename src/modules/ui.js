@@ -4,6 +4,7 @@ import { format } from 'date-fns';
 
 const ui = (() => {
   const main = document.querySelector('.main');
+  const body = document.querySelector('body');
 
   const loadIcon = (name) => {
     return import(/* webpackChunkName: "icon" */ `../assets/icons/${name}.png`);
@@ -16,10 +17,11 @@ const ui = (() => {
     return wrapper;
   };
 
-  const createParagraph = ([...classList], text, parent) => {
+  const createParagraph = ([...classList], text, parent, span) => {
     const para = document.createElement('p');
     classList.forEach((item) => para.classList.add(item));
     para.textContent = text;
+    if (span) para.appendChild(span);
     parent.appendChild(para);
   };
 
@@ -27,7 +29,8 @@ const ui = (() => {
     const span = document.createElement('span');
     classList.forEach((item) => span.classList.add(item));
     span.textContent = text;
-    parent.appendChild(span);
+    if (parent) parent.appendChild(span);
+    return span;
   };
 
   const createButton = ([...classList], text, parent) => {
@@ -102,9 +105,17 @@ const ui = (() => {
 
   const changeMainBg = (id, icon) => {
     const prefix = 'bg';
+    const prefixBody = 'body';
     removePrefixedClasses(prefix, main);
-    if (id >= 200 && id <= 622) {
+    removePrefixedClasses(prefixBody, body);
+    if (icon.includes('d')) body.classList.add('body--day');
+    else body.classList.add('body--night');
+    if (id >= 200 && id <= 232) {
       main.classList.add('bg--rain');
+    }
+    if (id >= 300 && id <= 622) {
+      if (icon.includes('d')) main.classList.add('bg--cloudy');
+      else main.classList.add('bg--night');
     }
     if (id >= 701 && id <= 781) {
       main.classList.add('bg--cloudy');
@@ -117,6 +128,29 @@ const ui = (() => {
       if (icon.includes('d')) main.classList.add('bg--cloudy');
       else main.classList.add('bg--night');
     }
+  };
+
+  const createTextGroup = (text, data, parent) => {
+    const span = createSpan(['text', 'text--semibold'], data);
+    const textNode = createParagraph(
+      ['info--text', 'text--light'],
+      `${text} `,
+      parent,
+      span
+    );
+    return textNode;
+  };
+
+  const createInfoTable = (data) => {
+    const wrapper = createWrapper(['container', 'info__table'], 'div');
+    const rowOne = createWrapper(['row'], 'div', wrapper);
+    const rowTwo = createWrapper(['row'], 'div', wrapper);
+    const humidityText = createTextGroup('Humidity:', data.humidity, rowOne);
+    const cloudsText = createTextGroup('Clouds:', data.clouds, rowOne);
+    const pressureText = createTextGroup('Pressure', data.pressure, rowTwo);
+    const windText = createTextGroup('Wind:', data.wind.speed, rowTwo);
+
+    main.appendChild(wrapper);
   };
 
   const renderContent = (msg, data) => {
@@ -135,11 +169,16 @@ const ui = (() => {
       temp
     );
     createSpan(['date', 'text--regular'], formattedDate, info);
-    createSpan(['location', 'text--semibold'], data.city, info);
+    createSpan(
+      ['location', 'text--semibold'],
+      `${data.city}, ${data.country}`,
+      info
+    );
     createSpan(['text', 'text--regular'], 'fells like', feelsLike);
     createSpan(['temp--fl', 'text--semibold'], data.feelslike, feelsLike);
     createSearchBar(['search__bar'], rows[0]);
 
+    createInfoTable(data);
     rows[1].append(info, icon, temp);
   };
 
