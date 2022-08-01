@@ -148,21 +148,21 @@ const ui = (() => {
 
     createTextGroup('Humidity:', data.humidity, rowOne);
     createTextGroup('Clouds:', data.clouds, rowOne);
-    createTextGroup('Pressure', data.pressure, rowTwo);
+    createTextGroup('Pressure:', data.pressure, rowTwo);
     createTextGroup('Wind:', data.wind.speed, rowTwo);
 
-    main.appendChild(wrapper);
+    return wrapper;
   };
 
-  const createDescription = (weather, parent) => {
-    const wrapper = createWrapper(['container'], 'div');
+  const createDescription = (weather) => {
+    const wrapper = createWrapper(['container', 'description__wrapper'], 'div');
     weather.forEach((item, index) => {
       let text;
       if (index === weather.length - 1) text = item.description;
       else text = `${item.description}, `;
-      createSpan(['description', 'text--light'], text, wrapper);
+      createSpan(['description', 'text--semibold'], text, wrapper);
     });
-    parent.appendChild(wrapper);
+    return wrapper;
   };
 
   const createTopInfo = (data) => {
@@ -197,11 +197,13 @@ const ui = (() => {
     const rows = createMainRows();
     const topInfo = createTopInfo(data);
     const icon = createIcon(data.weather[0].icon);
+    const description = createDescription(data.weather);
     const temp = createTempInfo(data);
+    const infoTable = createInfoTable(data);
     createSearchBar(['search__bar'], rows[0]);
-    createInfoTable(data);
 
-    rows[1].append(topInfo, icon, temp);
+    rows[1].append(topInfo, icon, temp, description);
+    rows[2].appendChild(infoTable);
   };
 
   const renderFiveDayWeather = (msg, data) => {

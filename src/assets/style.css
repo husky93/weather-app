@@ -155,6 +155,10 @@ body {
   flex-direction: column;
 }
 
+.description__wrapper {
+  padding: 12px;
+}
+
 .info__table {
   display: flex;
   flex-direction: column;
