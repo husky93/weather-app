@@ -3,7 +3,7 @@ import PubSub from 'pubsub-js';
 const API_KEY = '044a0966b2f2703c494f92b31d159d15';
 
 const data = (() => {
-  async function fetchCurrentData(msg, city = 'Kraków') {
+  const fetchCurrentData = async (msg, city = 'Kraków') => {
     if (city.length >= 3) {
       try {
         const response = await fetch(
@@ -11,17 +11,19 @@ const data = (() => {
           { mode: 'cors' }
         );
         if (!response.ok) {
-          throw new Error('Network response was not OK');
+          throw new Error(`Error ${response.status}: ${response.statusText}`);
         }
         const currentData = await response.json();
         PubSub.publish('GET CURRENT WEATHER', currentData);
       } catch (error) {
         console.log(error);
+        PubSub.publish('ERROR', error);
+        return error;
       }
     }
-  }
+  };
 
-  async function fetchFiveDayData(msg, city = 'Kraków') {
+  const fetchFiveDayData = async (msg, city = 'Kraków') => {
     try {
       const response = await fetch(
         `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&cnt=24&appid=${API_KEY}`,
@@ -29,14 +31,16 @@ const data = (() => {
       );
       console.log(response);
       if (!response.ok) {
-        throw new Error('Network response was not OK');
+        throw new Error(`Error ${response.status}: ${response.statusText}`);
       }
       const currentData = await response.json();
       PubSub.publish('GET FIVE DAY WEATHER', currentData);
     } catch (error) {
       console.log(error);
+      PubSub.publish('ERROR', error);
+      return error;
     }
-  }
+  };
 
   const processCurrentData = (msg, object) => {
     const processedData = {

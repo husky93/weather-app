@@ -176,3 +176,17 @@ body {
 1px 6px 6px rgba(16,16,16,0.4),
 1px 8px 10px rgba(16,16,16,0.2);
 }
+
+.error {
+  text-align: center;
+  font-size: 36px;
+  text-shadow: 1px 1px 1px #919191,
+  1px 2px 1px #919191,
+  1px 3px 1px #919191,
+  1px 4px 1px #919191,
+  1px 5px 1px #919191,
+1px 11px 6px rgba(16,16,16,0.4),
+1px 13px 10px rgba(16,16,16,0.2),
+1px 14px 35px rgba(16,16,16,0.2),
+1px 16px 60px rgba(16,16,16,0.4);
+}

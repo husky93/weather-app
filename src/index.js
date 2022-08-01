@@ -11,6 +11,8 @@ PubSub.subscribe('DATA PROCESSED', ui.renderContent);
 PubSub.subscribe('SEARCHBAR CREATED', controller.addSearchListeners);
 PubSub.subscribe('SEARCH TRIGGERED', data.fetchCurrentData);
 PubSub.subscribe('SEARCH TRIGGERED', data.fetchFiveDayData);
+PubSub.subscribe('SEARCH TRIGGERED', ui.renderLoading);
+PubSub.subscribe('ERROR', ui.renderError);
 PubSub.subscribe('GET FIVE DAY WEATHER', ui.renderFiveDayWeather);
 
 data.fetchCurrentData();

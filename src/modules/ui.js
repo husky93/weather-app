@@ -59,7 +59,6 @@ const ui = (() => {
   const createIcon = (name) => {
     const icon = new Image();
     icon.classList.add('icon--weather');
-    icon.src = spinner;
 
     loadIcon(name)
       .then((module) => {
@@ -84,16 +83,6 @@ const ui = (() => {
     while (main.lastElementChild) {
       main.removeChild(main.lastElementChild);
     }
-  };
-
-  const renderLoading = () => {
-    clearMain();
-    const wrapper = createWrapper(['container', 'loading__wrapper'], 'div');
-    const loadingIcon = new Image();
-    loadingIcon.src = spinner;
-    loadingIcon.classList.add('loading');
-    wrapper.appendChild(loadingIcon);
-    main.appendChild(wrapper);
   };
 
   const removePrefixedClasses = (prefix, element) => {
@@ -190,6 +179,16 @@ const ui = (() => {
     return temp;
   };
 
+  const renderLoading = () => {
+    clearMain();
+    const wrapper = createWrapper(['container', 'loading__wrapper'], 'div');
+    const loadingIcon = new Image();
+    loadingIcon.src = spinner;
+    loadingIcon.classList.add('loading');
+    wrapper.appendChild(loadingIcon);
+    main.appendChild(wrapper);
+  };
+
   const renderContent = (msg, data) => {
     clearMain();
     changeMainBg(data.weather[0].id, data.weather[0].icon);
@@ -206,11 +205,19 @@ const ui = (() => {
     rows[2].appendChild(infoTable);
   };
 
+  const renderError = (msg, error) => {
+    clearMain();
+    const rows = createMainRows();
+    createParagraph(['error', 'text--bold'], error.message, rows[1]);
+    console.log(error);
+    createSearchBar(['search__bar'], rows[0]);
+  };
+
   const renderFiveDayWeather = (msg, data) => {
     console.log(msg, data);
   };
 
-  return { renderContent, renderLoading, renderFiveDayWeather };
+  return { renderContent, renderLoading, renderError, renderFiveDayWeather };
 })();
 
 export default ui;
