@@ -136,12 +136,12 @@ body {
 }
 
 .icon--weather {
-  width: 325px;
+  width: 290px;
 }
 
 .icon--small {
-  width: 50px;
-  height: 50px;
+  width: 42px;
+  height: 42px;
   object-fit: cover;
 }
 
@@ -263,12 +263,17 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  font-size: 14px;
+  gap: 6px;
 }
 
 .fiveday__desc {
   text-align: center;
+}
+
+.fiveday__date {
   flex: 1;
+  white-space: nowrap;
 }
 
 .fiveday__temp {
@@ -296,6 +301,15 @@ body {
   
   .icon--arrow {
     width: 48px;
+  }
+
+  .icon--small {
+    width: 50px;
+    height: 50px;
+  }
+  .fiveday__info {
+    gap: 12px;
+    font-size: 16px;
   }
 }
 
@@ -381,6 +395,11 @@ body {
   }
   .info__wrapper {
     display: flex;
+  }
+
+  .icon--small {
+    width: 64px;
+    height: 64px;
   }
 }
 

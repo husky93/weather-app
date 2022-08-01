@@ -26,7 +26,7 @@ const data = (() => {
   const fetchFiveDayData = async (msg, city = 'Kraków') => {
     try {
       const response = await fetch(
-        `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&cnt=24&appid=${API_KEY}`,
+        `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&cnt=36&appid=${API_KEY}`,
         { mode: 'cors' }
       );
       if (!response.ok) {

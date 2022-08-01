@@ -215,7 +215,6 @@ const ui = (() => {
     clearMain();
     const rows = createMainRows();
     createParagraph(['error', 'text--bold'], error.message, rows[1]);
-    console.log(error);
     createSearchBar(['search__bar'], rows[0]);
   };
 
@@ -251,7 +250,6 @@ const ui = (() => {
   };
 
   const renderFiveDayWeather = (msg, data) => {
-    console.log(msg, data);
     const list = data.list;
     const wrapper = createWrapper(['container', 'fiveday'], 'div');
     const arrowLeft = createSliderArrow('left');
