@@ -145,22 +145,39 @@ const ui = (() => {
     const wrapper = createWrapper(['container', 'info__table'], 'div');
     const rowOne = createWrapper(['row'], 'div', wrapper);
     const rowTwo = createWrapper(['row'], 'div', wrapper);
-    const humidityText = createTextGroup('Humidity:', data.humidity, rowOne);
-    const cloudsText = createTextGroup('Clouds:', data.clouds, rowOne);
-    const pressureText = createTextGroup('Pressure', data.pressure, rowTwo);
-    const windText = createTextGroup('Wind:', data.wind.speed, rowTwo);
+
+    createTextGroup('Humidity:', data.humidity, rowOne);
+    createTextGroup('Clouds:', data.clouds, rowOne);
+    createTextGroup('Pressure', data.pressure, rowTwo);
+    createTextGroup('Wind:', data.wind.speed, rowTwo);
 
     main.appendChild(wrapper);
   };
 
-  const renderContent = (msg, data) => {
-    clearMain();
-    changeMainBg(data.weather[0].id, data.weather[0].icon);
-    console.log(data);
-    const rows = createMainRows();
-    const icon = createIcon(data.weather[0].icon);
-    const formattedDate = format(new Date(), 'd MMMM, EEEE');
+  const createDescription = (weather, parent) => {
+    const wrapper = createWrapper(['container'], 'div');
+    weather.forEach((item, index) => {
+      let text;
+      if (index === weather.length - 1) text = item.description;
+      else text = `${item.description}, `;
+      createSpan(['description', 'text--light'], text, wrapper);
+    });
+    parent.appendChild(wrapper);
+  };
+
+  const createTopInfo = (data) => {
     const info = createWrapper(['container', 'top__info'], 'div');
+    const formattedDate = format(new Date(), 'd MMMM, EEEE');
+    createSpan(['date', 'text--regular'], formattedDate, info);
+    createSpan(
+      ['location', 'text--semibold'],
+      `${data.city}, ${data.country}`,
+      info
+    );
+    return info;
+  };
+
+  const createTempInfo = (data) => {
     const temp = createWrapper(['container', 'top__temp'], 'div');
     createSpan(['temp--main', 'text--bold'], data.temp, temp);
     const feelsLike = createWrapper(
@@ -168,23 +185,23 @@ const ui = (() => {
       'div',
       temp
     );
-    createSpan(['date', 'text--regular'], formattedDate, info);
-    createSpan(
-      ['location', 'text--semibold'],
-      `${data.city}, ${data.country}`,
-      info
-    );
     createSpan(['text', 'text--regular'], 'fells like', feelsLike);
     createSpan(['temp--fl', 'text--semibold'], data.feelslike, feelsLike);
+    return temp;
+  };
+
+  const renderContent = (msg, data) => {
+    clearMain();
+    changeMainBg(data.weather[0].id, data.weather[0].icon);
+    console.log(data);
+    const rows = createMainRows();
+    const topInfo = createTopInfo(data);
+    const icon = createIcon(data.weather[0].icon);
+    const temp = createTempInfo(data);
     createSearchBar(['search__bar'], rows[0]);
-
     createInfoTable(data);
-    rows[1].append(info, icon, temp);
 
-    PubSub.publish('CURRENT WEATHER RENDERED', {
-      lon: data.lon,
-      lat: data.lat,
-    });
+    rows[1].append(topInfo, icon, temp);
   };
 
   const renderFiveDayWeather = (msg, data) => {

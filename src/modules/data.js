@@ -21,12 +21,10 @@ const data = (() => {
     }
   }
 
-  async function fetchFiveDayData(msg, object) {
+  async function fetchFiveDayData(msg, city = 'Kraków') {
     try {
-      const { lat } = object;
-      const { lon } = object;
       const response = await fetch(
-        `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&cnt=24&appid=${API_KEY}`,
+        `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&cnt=24&appid=${API_KEY}`,
         { mode: 'cors' }
       );
       console.log(response);
