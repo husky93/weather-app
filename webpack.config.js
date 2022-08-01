@@ -3,9 +3,9 @@ const path = require('path');
 module.exports = {
   mode: 'production',
   entry: './src/index.js',
-  // devServer: {
-  //   static: './dist',
-  // },
+  devServer: {
+    static: './dist',
+  },
   // devtool: 'inline-source-map',
   output: {
     filename: 'main.js',
@@ -45,6 +45,16 @@ module.exports = {
             },
           },
         ],
+      },
+      {
+        test: /\.m?js$/,
+        exclude: /(node_modules|bower_components)/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env'],
+          },
+        },
       },
     ],
   },

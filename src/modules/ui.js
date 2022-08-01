@@ -106,7 +106,7 @@ const ui = (() => {
     if (icon.includes('d')) body.classList.add('body--day');
     else body.classList.add('body--night');
     if (id >= 200 && id <= 232) {
-      main.classList.add('bg--rain');
+      main.classList.add('bg--thunder');
     }
     if (id >= 300 && id <= 622) {
       if (icon.includes('d')) main.classList.add('bg--cloudy');
