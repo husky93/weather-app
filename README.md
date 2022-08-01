@@ -21,6 +21,7 @@ Weather web application that displays data fetched from [OpenWeatherMap API](htt
 - [PubSubJS](https://github.com/mroderick/PubSubJS)
 - [date-fns](https://github.com/date-fns/date-fns)
 <br>
+
 #### Dev dependencies:
 - [webpack](https://github.com/webpack/webpack)
 - [babel](https://github.com/babel/babel)
