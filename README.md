@@ -21,7 +21,6 @@ Weather web application that displays data fetched from [OpenWeatherMap API](htt
 ### Dependencies Used:
 - [PubSubJS](https://github.com/mroderick/PubSubJS)
 - [date-fns](https://github.com/date-fns/date-fns)
-<br>
 
 #### Dev dependencies:
 - [webpack](https://github.com/webpack/webpack)
@@ -34,6 +33,9 @@ Weather web application that displays data fetched from [OpenWeatherMap API](htt
 ### APIs used:
 - [Current Weather](https://openweathermap.org/current)
 - [Five Day Forecast](https://openweathermap.org/forecast5)
+
+### To add:
+- Geolocation
 
 ### Assets used:
 - <a target="_blank" href="https://icons8.com/icon/RmKPpQoqIwH5/back">Back</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
