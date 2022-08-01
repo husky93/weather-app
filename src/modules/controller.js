@@ -23,7 +23,37 @@ const controller = (() => {
     addSearchBtnEventListener(btn, input);
   };
 
-  return { addSearchListeners };
+  const switchToNextSlide = () => {
+    const currentSlide = document.querySelector('.active');
+    const nextSlide = currentSlide.nextElementSibling;
+    const slides = [currentSlide, nextSlide];
+    if (nextSlide && nextSlide.classList.contains('slide'))
+      slides.forEach((slide) => {
+        slide.classList.toggle('active');
+        slide.classList.toggle('hidden');
+      });
+  };
+
+  const switchToPrevSlide = () => {
+    const currentSlide = document.querySelector('.active');
+    const prevSlide = currentSlide.previousElementSibling;
+    const slides = [currentSlide, prevSlide];
+    if (prevSlide && prevSlide.classList.contains('slide'))
+      slides.forEach((slide) => {
+        slide.classList.toggle('active');
+        slide.classList.toggle('hidden');
+      });
+  };
+
+  const addSliderListeners = (msg, object) => {
+    const { arrowLeft } = object;
+    const { arrowRight } = object;
+
+    arrowLeft.addEventListener('click', switchToPrevSlide);
+    arrowRight.addEventListener('click', switchToNextSlide);
+  };
+
+  return { addSearchListeners, addSliderListeners };
 })();
 
 export default controller;

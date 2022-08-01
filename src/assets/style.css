@@ -219,6 +219,9 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  animation-name: transition;
+  animation-duration: 0.5s;
+  opacity: 1;
 }
 
 .slider__arrow {
@@ -245,6 +248,11 @@ body {
 
 .hidden {
   display: none;
+  opacity: 0.4;
+}
+
+.active {
+  opacity: 1;
 }
 
 .fiveday__info {
@@ -261,4 +269,13 @@ body {
 
 .fiveday__temp {
   font-size: 18px;
+}
+
+@keyframes transition {
+  0% {
+     opacity: 0.4
+  }
+  100% {
+     opacity: 1
+  }
 }

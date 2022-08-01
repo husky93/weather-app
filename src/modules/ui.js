@@ -1,6 +1,6 @@
 import spinner from '../assets/spinner.gif';
 import PubSub from 'pubsub-js';
-import { format } from 'date-fns';
+import { format, fromUnixTime, parseJSON } from 'date-fns';
 
 const ui = (() => {
   const main = document.querySelector('.main');
@@ -160,7 +160,7 @@ const ui = (() => {
 
   const createTopInfo = (data) => {
     const info = createWrapper(['container', 'top__info'], 'div');
-    const formattedDate = format(new Date(data.dt * 1000), 'd MMMM, EEEE');
+    const formattedDate = format(fromUnixTime(data.dt), 'd MMMM, EEEE');
     createSpan(['date', 'text--regular'], formattedDate, info);
     createSpan(
       ['location', 'text--semibold'],
@@ -237,7 +237,8 @@ const ui = (() => {
   const createFiveDayInfo = (data, parent) => {
     const wrapper = createWrapper(['fiveday__info'], 'div', parent);
     const icon = createIcon(data.weather[0].icon, true);
-    const formattedDate = format(new Date(data.dt * 1000), 'dd/MM EEE hh:mm');
+    const date = fromUnixTime(data.dt);
+    const formattedDate = format(date, 'dd/MM EEE hbbb');
     const temp = `${Math.round(data.main.temp)}ºC`;
     const description = data.weather[0].description;
     createParagraph(['fiveday__date', 'text--light'], formattedDate, wrapper);
@@ -253,7 +254,10 @@ const ui = (() => {
     const wrapper = createWrapper(['container', 'fiveday'], 'div');
     const arrowLeft = createSliderArrow('left');
     const arrowRight = createSliderArrow('right');
-    let slide = createWrapper(['container', 'fiveday__slide', 'slide'], 'div');
+    let slide = createWrapper(
+      ['container', 'fiveday__slide', 'slide', 'active'],
+      'div'
+    );
 
     list.forEach((item, i) => {
       createFiveDayInfo(item, slide);
@@ -267,8 +271,12 @@ const ui = (() => {
     });
 
     wrapper.append(arrowLeft, arrowRight);
-
     main.appendChild(wrapper);
+
+    PubSub.publish('FIVE DAY RENDERED', {
+      arrowLeft: arrowLeft,
+      arrowRight: arrowRight,
+    });
   };
 
   return { renderContent, renderLoading, renderError, renderFiveDayWeather };
