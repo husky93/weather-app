@@ -2,7 +2,7 @@
 
 Weather web application that displays data fetched from [OpenWeatherMap API](https://openweathermap.org/). Made with vanilla JavaScript with use of Publisher/Subscriber pattern to control application events, and with use of Module pattern to encapsulate exported modules.
 
-**Live [click here](https://husky93.github.io/weather-app/)**
+**Live: [click here](https://husky93.github.io/weather-app/)**
 
 ## Features
 - Dynamically generated
