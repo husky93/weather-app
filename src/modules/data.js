@@ -29,7 +29,6 @@ const data = (() => {
         `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&cnt=24&appid=${API_KEY}`,
         { mode: 'cors' }
       );
-      console.log(response);
       if (!response.ok) {
         throw new Error(`Error ${response.status}: ${response.statusText}`);
       }
@@ -51,6 +50,7 @@ const data = (() => {
       feelslike: `${Math.round(object.main.feels_like)}ºC`,
       pressure: `${object.main.pressure}hPa`,
       humidity: `${object.main.humidity}%`,
+      dt: object.dt,
       lon: object.coord.lon,
       lat: object.coord.lat,
       wind: { speed: `${object.wind.speed}m/s`, direction: object.wind.deg },

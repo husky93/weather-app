@@ -7,7 +7,10 @@ const ui = (() => {
   const body = document.querySelector('body');
 
   const loadIcon = (name) => {
-    return import(/* webpackChunkName: "icon" */ `../assets/icons/${name}.png`);
+    const response = import(
+      /* webpackChunkName: "icon" */ `../assets/icons/${name}.png`
+    );
+    return response;
   };
 
   const createWrapper = ([...classList], wrapperTag, parent) => {
@@ -56,11 +59,12 @@ const ui = (() => {
     PubSub.publish('SEARCHBAR CREATED', { input, btn });
   };
 
-  const createIcon = (name) => {
+  const createIcon = (name, small) => {
     const icon = new Image();
-    icon.classList.add('icon--weather');
-
-    loadIcon(name)
+    if (small) icon.classList.add('icon--small');
+    else icon.classList.add('icon--weather');
+    const response = loadIcon(name);
+    response
       .then((module) => {
         const src = module.default;
         icon.src = src;
@@ -156,7 +160,7 @@ const ui = (() => {
 
   const createTopInfo = (data) => {
     const info = createWrapper(['container', 'top__info'], 'div');
-    const formattedDate = format(new Date(), 'd MMMM, EEEE');
+    const formattedDate = format(new Date(data.dt * 1000), 'd MMMM, EEEE');
     createSpan(['date', 'text--regular'], formattedDate, info);
     createSpan(
       ['location', 'text--semibold'],
@@ -192,7 +196,6 @@ const ui = (() => {
   const renderContent = (msg, data) => {
     clearMain();
     changeMainBg(data.weather[0].id, data.weather[0].icon);
-    console.log(data);
     const rows = createMainRows();
     const topInfo = createTopInfo(data);
     const icon = createIcon(data.weather[0].icon);
@@ -203,6 +206,7 @@ const ui = (() => {
 
     rows[1].append(topInfo, icon, temp, description);
     rows[2].appendChild(infoTable);
+    PubSub.publish('CONTENT RENDERED');
   };
 
   const renderError = (msg, error) => {
@@ -213,8 +217,58 @@ const ui = (() => {
     createSearchBar(['search__bar'], rows[0]);
   };
 
+  const createSliderArrow = (direction) => {
+    const link = createWrapper([`arrow--${direction}`, 'slider__arrow'], 'a');
+    const img = new Image();
+    img.classList.add('icon--arrow');
+    link.appendChild(img);
+    const response = loadIcon(`slider-${direction}`);
+    response
+      .then((module) => {
+        const src = module.default;
+        img.src = src;
+      })
+      .catch(() => {
+        return new Error('Icon load error');
+      });
+    return link;
+  };
+
+  const createFiveDayInfo = (data, parent) => {
+    const wrapper = createWrapper(['fiveday__info'], 'div', parent);
+    const icon = createIcon(data.weather[0].icon, true);
+    const formattedDate = format(new Date(data.dt * 1000), 'dd/MM EEE hh:mm');
+    const temp = `${Math.round(data.main.temp)}ºC`;
+    const description = data.weather[0].description;
+    createParagraph(['fiveday__date', 'text--light'], formattedDate, wrapper);
+    wrapper.appendChild(icon);
+    createParagraph(['fiveday__temp', 'text--semibold'], temp, wrapper);
+    createParagraph(['fiveday__desc'], description, wrapper);
+    parent.appendChild(wrapper);
+  };
+
   const renderFiveDayWeather = (msg, data) => {
     console.log(msg, data);
+    const list = data.list;
+    const wrapper = createWrapper(['container', 'fiveday'], 'div');
+    const arrowLeft = createSliderArrow('left');
+    const arrowRight = createSliderArrow('right');
+    let slide = createWrapper(['container', 'fiveday__slide', 'slide'], 'div');
+
+    list.forEach((item, i) => {
+      createFiveDayInfo(item, slide);
+      if ((i + 1) % 4 === 0) {
+        wrapper.appendChild(slide);
+        slide = createWrapper(
+          ['container', 'fiveday__slide', 'slide', 'hidden'],
+          'div'
+        );
+      }
+    });
+
+    wrapper.append(arrowLeft, arrowRight);
+
+    main.appendChild(wrapper);
   };
 
   return { renderContent, renderLoading, renderError, renderFiveDayWeather };
