@@ -78,8 +78,10 @@ const ui = (() => {
   const createMainRows = () => {
     const rowOne = createWrapper(['row', 'search__wrapper'], 'div');
     const rowTwo = createWrapper(['row', 'top__wrapper'], 'div');
-    const rowThree = createWrapper(['row'], 'div');
-    main.append(rowOne, rowTwo, rowThree);
+    const rowThree = createWrapper(['row', 'info__wrapper'], 'div');
+    const wrapper = createWrapper(['container', 'main__wrapper'], 'div');
+    wrapper.append(rowTwo, rowThree);
+    main.append(rowOne, wrapper);
     return [rowOne, rowTwo, rowThree];
   };
 
