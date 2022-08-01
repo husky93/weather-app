@@ -5,6 +5,7 @@ Weather web application that displays data fetched from [OpenWeatherMap API](htt
 **Live [click here](https://husky93.github.io/weather-app/)**
 
 ## Features
+- Dynamically generated
 - Display Current Weather
 - Display 5 Day Forecast
 - Display weather by city name
