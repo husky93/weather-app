@@ -14,8 +14,7 @@ Weather web application that displays data fetched from [OpenWeatherMap API](htt
 - Change background color according to weather / time of the day
 - Responsive UI
  
-<img src="https://github.com/husky93/weather-app/blob/main/sunny.jpg?raw=true" width="200"/>
-<img src="https://github.com/husky93/weather-app/blob/main/night.jpg?raw=true" width="200"/>
+<img src="https://github.com/husky93/weather-app/blob/main/sunny.jpg?raw=true" width="200"/> <img src="https://github.com/husky93/weather-app/blob/main/night.jpg?raw=true" width="200"/>
 <img src="https://github.com/husky93/weather-app/blob/main/cloudy.jpg?raw=true" width="200"/>
 <img src="https://github.com/husky93/weather-app/blob/main/thunder.jpg?raw=true" width="200"/>
 
