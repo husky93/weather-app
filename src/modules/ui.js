@@ -185,39 +185,6 @@ const ui = (() => {
     return temp;
   };
 
-  const renderLoading = () => {
-    clearMain();
-    const wrapper = createWrapper(['container', 'loading__wrapper'], 'div');
-    const loadingIcon = new Image();
-    loadingIcon.src = spinner;
-    loadingIcon.classList.add('loading');
-    wrapper.appendChild(loadingIcon);
-    main.appendChild(wrapper);
-  };
-
-  const renderContent = (msg, data) => {
-    clearMain();
-    changeMainBg(data.weather[0].id, data.weather[0].icon);
-    const rows = createMainRows();
-    const topInfo = createTopInfo(data);
-    const icon = createIcon(data.weather[0].icon);
-    const description = createDescription(data.weather);
-    const temp = createTempInfo(data);
-    const infoTable = createInfoTable(data);
-    createSearchBar(['search__bar'], rows[0]);
-
-    rows[1].append(topInfo, icon, temp, description);
-    rows[2].appendChild(infoTable);
-    PubSub.publish('CONTENT RENDERED');
-  };
-
-  const renderError = (msg, error) => {
-    clearMain();
-    const rows = createMainRows();
-    createParagraph(['error', 'text--bold'], error.message, rows[1]);
-    createSearchBar(['search__bar'], rows[0]);
-  };
-
   const createSliderArrow = (direction) => {
     const link = createWrapper([`arrow--${direction}`, 'slider__arrow'], 'a');
     const img = new Image();
@@ -247,6 +214,39 @@ const ui = (() => {
     createParagraph(['fiveday__temp', 'text--semibold'], temp, wrapper);
     createParagraph(['fiveday__desc'], description, wrapper);
     parent.appendChild(wrapper);
+  };
+
+  const renderLoading = () => {
+    clearMain();
+    const wrapper = createWrapper(['container', 'loading__wrapper'], 'div');
+    const loadingIcon = new Image();
+    loadingIcon.src = spinner;
+    loadingIcon.classList.add('loading');
+    wrapper.appendChild(loadingIcon);
+    main.appendChild(wrapper);
+  };
+
+  const renderContent = (msg, data) => {
+    clearMain();
+    changeMainBg(data.weather[0].id, data.weather[0].icon);
+    const rows = createMainRows();
+    const topInfo = createTopInfo(data);
+    const icon = createIcon(data.weather[0].icon);
+    const description = createDescription(data.weather);
+    const temp = createTempInfo(data);
+    const infoTable = createInfoTable(data);
+    createSearchBar(['search__bar'], rows[0]);
+
+    rows[1].append(topInfo, icon, temp, description);
+    rows[2].appendChild(infoTable);
+    PubSub.publish('CONTENT RENDERED');
+  };
+
+  const renderError = (msg, error) => {
+    clearMain();
+    const wrapper = createWrapper(['row', 'search__wrapper'], 'div', main);
+    createSearchBar(['search__bar'], wrapper);
+    createParagraph(['error', 'text--bold'], error.message, main);
   };
 
   const renderFiveDayWeather = (msg, data) => {

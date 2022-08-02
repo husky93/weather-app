@@ -12,7 +12,8 @@ const controller = (() => {
 
   const addSearchBtnEventListener = (btn, input) => {
     btn.addEventListener('click', () => {
-      PubSub.publish('SEARCH TRIGGERED', input.value);
+      if (input.value.length >= 3)
+        PubSub.publish('SEARCH TRIGGERED', input.value);
     });
   };
 

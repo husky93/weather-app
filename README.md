@@ -10,13 +10,14 @@ Weather web application that displays data fetched from [OpenWeatherMap API](htt
 - Display 5 Day Forecast
 - Display weather by city name
 - Display spinner while loading
+- Display error if data fetch failed
 - Change background color according to weather / time of the day
 - Responsive UI
  
-![Sunny](https://github.com/husky93/weather-app/blob/main/sunny.jpg?raw=true)
-![Night](https://github.com/husky93/weather-app/blob/main/night.jpg?raw=true)
-![Cloudy](https://github.com/husky93/weather-app/blob/main/cloudy.jpg?raw=true)
-![Thunder](https://github.com/husky93/weather-app/blob/main/thunder.jpg?raw=true)
+<img src="https://github.com/husky93/weather-app/blob/main/sunny.jpg?raw=true" width="200"/>
+<img src="https://github.com/husky93/weather-app/blob/main/night.jpg?raw=true" width="200"/>
+<img src="https://github.com/husky93/weather-app/blob/main/cloudy.jpg?raw=true" width="200"/>
+<img src="https://github.com/husky93/weather-app/blob/main/thunder.jpg?raw=true" width="200"/>
 
 ### Dependencies Used:
 - [PubSubJS](https://github.com/mroderick/PubSubJS)
